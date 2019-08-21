@@ -494,6 +494,7 @@
 					<trimStackTrace>false</trimStackTrace>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<runOrder>alphabetical</runOrder>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
 				</configuration>
 			</plugin>
 			<plugin>

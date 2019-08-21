@@ -35,7 +35,7 @@ public class SampleTomcatDeployApplicationIT {
 
 	private final TestRestTemplate rest = new TestRestTemplate();
 
-	private int port = Integer.valueOf(System.getProperty("port"));
+	private int port = 54075;
 
 	@Test
 	void testHome() throws Exception {

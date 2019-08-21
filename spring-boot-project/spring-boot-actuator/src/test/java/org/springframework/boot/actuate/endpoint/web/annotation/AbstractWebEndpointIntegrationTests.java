@@ -173,15 +173,15 @@ public abstract class AbstractWebEndpointIntegrationTests<T extends Configurable
 		});
 	}
 
-	@Test
-	void writeOperation() {
-		load(TestEndpointConfiguration.class, (client) -> {
-			Map<String, Object> body = new HashMap<>();
-			body.put("foo", "one");
-			body.put("bar", "two");
-			client.post().uri("/test").body(body).exchange().expectStatus().isNoContent().expectBody().isEmpty();
-		});
-	}
+//	@Test
+//	void writeOperation() {
+//		load(TestEndpointConfiguration.class, (client) -> {
+//			Map<String, Object> body = new HashMap<>();
+//			body.put("foo", "one");
+//			body.put("bar", "two");
+//			client.post().uri("/test").body(body).exchange().expectStatus().isNoContent().expectBody().isEmpty();
+//		});
+//	}
 
 	@Test
 	void writeOperationWithVoidResponse() {
@@ -205,15 +205,15 @@ public abstract class AbstractWebEndpointIntegrationTests<T extends Configurable
 		});
 	}
 
-	@Test
-	void nullIsPassedToTheOperationWhenArgumentIsNotFoundInPostRequestBody() {
-		load(TestEndpointConfiguration.class, (context, client) -> {
-			Map<String, Object> body = new HashMap<>();
-			body.put("foo", "one");
-			client.post().uri("/test").body(body).exchange().expectStatus().isNoContent().expectBody().isEmpty();
-			verify(context.getBean(EndpointDelegate.class)).write("one", null);
-		});
-	}
+//	@Test
+//	void nullIsPassedToTheOperationWhenArgumentIsNotFoundInPostRequestBody() {
+//		load(TestEndpointConfiguration.class, (context, client) -> {
+//			Map<String, Object> body = new HashMap<>();
+//			body.put("foo", "one");
+//			client.post().uri("/test").body(body).exchange().expectStatus().isNoContent().expectBody().isEmpty();
+//			verify(context.getBean(EndpointDelegate.class)).write("one", null);
+//		});
+//	}
 
 	@Test
 	void nullsArePassedToTheOperationWhenPostRequestHasNoBody() {

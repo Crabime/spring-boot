@@ -79,6 +79,7 @@ class BeanDefinitionLoader {
 		Assert.notNull(registry, "Registry must not be null");
 		Assert.notEmpty(sources, "Sources must not be empty");
 		this.sources = sources;
+		// 支持注解同时也支持xml形式的bean注册方式
 		this.annotatedReader = new AnnotatedBeanDefinitionReader(registry);
 		this.xmlReader = new XmlBeanDefinitionReader(registry);
 		if (isGroovyPresent()) {
@@ -153,6 +154,7 @@ class BeanDefinitionLoader {
 			GroovyBeanDefinitionSource loader = BeanUtils.instantiateClass(source, GroovyBeanDefinitionSource.class);
 			load(loader);
 		}
+		// 判断是否有@Component注解标识
 		if (isComponent(source)) {
 			this.annotatedReader.register(source);
 			return 1;

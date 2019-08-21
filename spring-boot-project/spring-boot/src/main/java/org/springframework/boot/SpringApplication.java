@@ -365,6 +365,7 @@ public class SpringApplication {
 
 	private void prepareContext(ConfigurableApplicationContext context, ConfigurableEnvironment environment,
 			SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments, Banner printedBanner) {
+		// 准备spring上下文环境
 		context.setEnvironment(environment);
 		postProcessApplicationContext(context);
 		applyInitializers(context);
@@ -1115,6 +1116,8 @@ public class SpringApplication {
 	 * ApplicationContext when {@link #run(String...)} is called. This method combines any
 	 * primary sources specified in the constructor with any additional ones that have
 	 * been {@link #setSources(Set) explicitly set}.
+	 * 再调用run方法时，将SpringApplication#run方法中对应的class生成bean并存放到ApplicationContext中
+	 *
 	 * @return an immutable set of all sources
 	 */
 	public Set<Object> getAllSources() {

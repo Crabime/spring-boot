@@ -26,6 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
  * {@link ContextConfiguration#initializers()} to trigger loading of
  * {@literal application.properties}.
  *
+ * 启动时触发加载spring boot配置文件
  * @author Phillip Webb
  * @since 1.4.0
  * @see ConfigFileApplicationListener

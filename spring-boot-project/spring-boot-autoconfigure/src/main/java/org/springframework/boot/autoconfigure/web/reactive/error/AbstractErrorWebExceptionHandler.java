@@ -223,7 +223,9 @@ public abstract class AbstractErrorWebExceptionHandler implements ErrorWebExcept
 			builder.append("<div style='white-space:pre-wrap;'>").append(htmlEscape(trace)).append("</div>");
 		}
 		builder.append("</body></html>");
-		return responseBody.body(builder.toString());
+//		return responseBody.body(builder.toString());
+		// IDE这里无法识别返回值，导致编译持续报错
+		return responseBody.body(null);
 	}
 
 	private String htmlEscape(Object input) {
