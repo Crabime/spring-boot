@@ -26,6 +26,8 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  * {@link SpringFactoriesLoader} and must declare a public constructor with a single
  * {@link ConfigurableApplicationContext} parameter.
  *
+ *
+ * 报告SpringApplication启动时产生的错误
  * @author Phillip Webb
  * @since 2.0.0
  * @see ApplicationContextAware

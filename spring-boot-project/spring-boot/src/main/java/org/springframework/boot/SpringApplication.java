@@ -300,10 +300,12 @@ public class SpringApplication {
 		stopWatch.start();
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+		// 在headless模式下运行
 		configureHeadlessProperty();
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
+			// 封装了启动时的命令行参数
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			configureIgnoreBeanInfo(environment);
@@ -339,7 +341,9 @@ public class SpringApplication {
 	private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
 		// Create and configure the environment
+		// 创建Environment对象
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
+		// 配置propertySource和profile
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
 		ConfigurationPropertySources.attach(environment);
 		listeners.environmentPrepared(environment);
