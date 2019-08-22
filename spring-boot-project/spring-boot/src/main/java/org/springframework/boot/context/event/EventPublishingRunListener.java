@@ -37,6 +37,9 @@ import org.springframework.util.ErrorHandler;
  * Uses an internal {@link ApplicationEventMulticaster} for the events that are fired
  * before the context is actually refreshed.
  *
+ * 使用责任链模式，通过SimpleApplicationEventMulticaster将spring boot事件广播给所有注册的
+ * ApplicationListener
+ *
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @author Andy Wilkinson

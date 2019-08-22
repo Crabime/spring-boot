@@ -43,6 +43,9 @@ import org.springframework.util.ReflectionUtils;
  * {@code BeanFactory} injected prior to {@link FailureAnalyzer#analyze(Throwable)} being
  * called.
  *
+ *
+ * 使用责任链模式依次调用FailureAnalyzer实现类analyze传入的异常，生成FailureAnalysis
+ * 并调用FailureAnalysisReporter report分析结果FailureAnalysis
  * @author Andy Wilkinson
  * @author Phillip Webb
  * @author Stephane Nicoll
@@ -63,10 +66,13 @@ final class FailureAnalyzers implements SpringBootExceptionReporter {
 		Assert.notNull(context, "Context must not be null");
 		this.classLoader = (classLoader != null) ? classLoader : context.getClassLoader();
 		this.analyzers = loadFailureAnalyzers(this.classLoader);
+		// 对FailureAnalyzer注入BeanFactory或EnvironmentAware
 		prepareFailureAnalyzers(this.analyzers, context);
 	}
 
+	// 加载所有注册在spring.factories中的所有FailureAnalyzer实现
 	private List<FailureAnalyzer> loadFailureAnalyzers(ClassLoader classLoader) {
+		// 加载注册在/META-INF/spring.factories中注册的所有的FailureAnalyzer实现类
 		List<String> analyzerNames = SpringFactoriesLoader.loadFactoryNames(FailureAnalyzer.class, classLoader);
 		List<FailureAnalyzer> analyzers = new ArrayList<>();
 		for (String analyzerName : analyzerNames) {

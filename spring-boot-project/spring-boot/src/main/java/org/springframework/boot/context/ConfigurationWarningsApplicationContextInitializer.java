@@ -45,6 +45,9 @@ import org.springframework.util.StringUtils;
 /**
  * {@link ApplicationContextInitializer} to report warnings for common misconfiguration
  * mistakes.
+ * 启动时，spring boot检查ComponentScan指定扫描的包是否有org或org.springframework这两个中某一个
+ * 如果有会发出警告
+ * 在ConfigurableApplicationContext#refresh之前调用initialize方法
  *
  * @author Phillip Webb
  * @since 1.2.0
@@ -124,6 +127,10 @@ public class ConfigurationWarningsApplicationContextInitializer
 
 	/**
 	 * {@link Check} for {@code @ComponentScan} on problematic package.
+	 * 检查ComponentScan扫描到的有问题的包，如何确认某个包是有问题的呢？
+	 * 如果ComponentScan指定扫描的包为org或org.springframework或不指定扫任何包
+	 * 那spring boot会提醒扫描包异常警告.
+	 *
 	 */
 	protected static class ComponentScanPackageCheck implements Check {
 
@@ -138,6 +145,7 @@ public class ConfigurationWarningsApplicationContextInitializer
 
 		@Override
 		public String getWarning(BeanDefinitionRegistry registry) {
+			// 先根据ComponentScan知道要扫哪些包
 			Set<String> scannedPackages = getComponentScanningPackages(registry);
 			List<String> problematicPackages = getProblematicPackages(scannedPackages);
 			if (problematicPackages.isEmpty()) {
@@ -161,11 +169,14 @@ public class ConfigurationWarningsApplicationContextInitializer
 		}
 
 		private void addComponentScanningPackages(Set<String> packages, AnnotationMetadata metadata) {
+			// AnnotationAttributes继承LinkedHashMap，本质上就是一个Map
 			AnnotationAttributes attributes = AnnotationAttributes
 					.fromMap(metadata.getAnnotationAttributes(ComponentScan.class.getName(), true));
 			if (attributes != null) {
+				// ComponentScan中value就是指向basePackages
 				addPackages(packages, attributes.getStringArray("value"));
 				addPackages(packages, attributes.getStringArray("basePackages"));
+				// 通过反射获取到这些class对应的包名
 				addClasses(packages, attributes.getStringArray("basePackageClasses"));
 				if (packages.isEmpty()) {
 					packages.add(ClassUtils.getPackageName(metadata.getClassName()));

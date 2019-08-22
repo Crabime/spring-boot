@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
  * {@link ApplicationContext#getId() ApplicationContext ID}. The
  * {@code spring.application.name} property is used to create the ID. If the property is
  * not set {@code application} is used.
+ * 设置spring boot引用上下文ID
  *
  * @author Dave Syer
  * @author Andy Wilkinson
@@ -58,9 +59,12 @@ public class ContextIdApplicationContextInitializer
 
 	private ContextId getContextId(ConfigurableApplicationContext applicationContext) {
 		ApplicationContext parent = applicationContext.getParent();
+		// parent ContextId是一个单例类，所以同一个parent的所有子上下文都是依次递增的
 		if (parent != null && parent.containsBean(ContextId.class.getName())) {
 			return parent.getBean(ContextId.class).createChildId();
 		}
+
+		// 检查配置文件中是否有spring.application.name属性，如有则取该值作为ContextId，否则使用application作为contextId
 		return new ContextId(getApplicationId(applicationContext.getEnvironment()));
 	}
 

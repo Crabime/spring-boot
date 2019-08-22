@@ -61,7 +61,9 @@ public class DelegatingApplicationContextInitializer
 		String classNames = env.getProperty(PROPERTY_NAME);
 		List<Class<?>> classes = new ArrayList<>();
 		if (StringUtils.hasLength(classNames)) {
+			// 去逗号分割符转化为数组
 			for (String className : StringUtils.tokenizeToStringArray(classNames, ",")) {
+				// 获取到所有ApplicationContextInitializer实现类
 				classes.add(getInitializerClass(className));
 			}
 		}
