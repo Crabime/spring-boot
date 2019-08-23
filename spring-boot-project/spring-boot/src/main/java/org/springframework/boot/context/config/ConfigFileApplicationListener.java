@@ -94,6 +94,8 @@ import org.springframework.util.StringUtils;
  * locations or specific files.
  * <p>
  *
+ * 告诉spring boot如何加载配置文件、加载哪些配置文件
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @author Stephane Nicoll
@@ -210,6 +212,7 @@ public class ConfigFileApplicationListener implements EnvironmentPostProcessor, 
 	 * @see #addPostProcessors(ConfigurableApplicationContext)
 	 */
 	protected void addPropertySources(ConfigurableEnvironment environment, ResourceLoader resourceLoader) {
+		// 插入jvm变量和系统环境变量
 		RandomValuePropertySource.addToEnvironment(environment);
 		new Loader(environment, resourceLoader).load();
 	}
