@@ -122,6 +122,8 @@ public class LogFile {
 
 	/**
 	 * Get a {@link LogFile} from the given Spring {@link Environment}.
+	 * boot判断系统是否需要FileAppender源头，如果有配置logging.file.name或logging.file.path则需要初始化LogFile对象
+	 *
 	 * @param propertyResolver the {@link PropertyResolver} used to obtain the logging
 	 * properties
 	 * @return a {@link LogFile} or {@code null} if the environment didn't contain any

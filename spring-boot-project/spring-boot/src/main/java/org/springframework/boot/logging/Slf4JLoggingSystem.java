@@ -83,6 +83,7 @@ public abstract class Slf4JLoggingSystem extends AbstractLoggingSystem {
 		return isBridgeHandlerAvailable() && isJulUsingASingleConsoleHandlerAtMost();
 	}
 
+	// 是否需要将JUL桥接到SLF4J上
 	protected final boolean isBridgeHandlerAvailable() {
 		return ClassUtils.isPresent(BRIDGE_HANDLER, getClassLoader());
 	}

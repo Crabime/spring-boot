@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
 /**
  * Generates ANSI encoded output, automatically attempting to detect if the terminal
  * supports ANSI.
+ * 检查当前终端是否支持ANSI颜色
  *
  * @author Phillip Webb
  * @since 1.0.0

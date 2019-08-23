@@ -76,6 +76,8 @@ public abstract class LoggingSystem {
 
 	/**
 	 * Fully initialize the logging system.
+	 *
+	 * 由LoggingApplicationListener触发日志框架初始化
 	 * @param initializationContext the logging initialization context
 	 * @param configLocation a log configuration location or {@code null} if default
 	 * initialization is required
@@ -144,6 +146,11 @@ public abstract class LoggingSystem {
 
 	/**
 	 * Detect and return the logging system in use. Supports Logback and Java Logging.
+	 * spring boot这里判断用什么日志框架，步骤如下：
+	 * 1、先从系统变量中找LoggingSystem变量，如果没有值则从classpath中依次查找logback->log4j2->jul，如果有则通过反射返回spring boot对应loggingSystem实现
+	 * 2、如果LoggingSystem不为空且值为none，则返回一个NoOpLoggingSystem
+	 * 3、如果LoggingSystem不为空且值不为none，通过反射创建对应的LoggingSystem
+	 *
 	 * @param classLoader the classloader
 	 * @return the logging system
 	 */

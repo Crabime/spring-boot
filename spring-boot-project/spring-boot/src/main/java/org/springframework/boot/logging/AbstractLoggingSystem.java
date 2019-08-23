@@ -47,6 +47,7 @@ public abstract class AbstractLoggingSystem extends LoggingSystem {
 		this.classLoader = classLoader;
 	}
 
+	// 在LoggingApplicationListener#onApplicationStartingEvent被调用，具体实现参见具体日志系统
 	@Override
 	public void beforeInitialize() {
 	}

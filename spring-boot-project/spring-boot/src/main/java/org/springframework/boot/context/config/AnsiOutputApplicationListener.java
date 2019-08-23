@@ -29,6 +29,8 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * value of the property {@code spring.output.ansi.enabled}. See {@link Enabled} for valid
  * values.
  *
+ * 在spring.factories中注册了该监听器
+ *
  * @author Raphael von der Grün
  * @author Madhura Bhave
  * @since 1.2.0

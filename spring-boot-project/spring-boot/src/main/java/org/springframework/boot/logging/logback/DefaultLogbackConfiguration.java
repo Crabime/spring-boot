@@ -43,6 +43,7 @@ import org.springframework.util.unit.DataSize;
  * improve startup time. See also the {@code defaults.xml}, {@code console-appender.xml}
  * and {@code file-appender.xml} files provided for classic {@code logback.xml} use.
  *
+ * 默认10MB，文件累计数目为7
  * @author Phillip Webb
  * @author Madhura Bhave
  * @author Vedran Pavic
@@ -88,6 +89,7 @@ class DefaultLogbackConfiguration {
 		synchronized (config.getConfigurationLock()) {
 			base(config);
 			Appender<ILoggingEvent> consoleAppender = consoleAppender(config);
+			// 如果logging.filep配置不为空时，将fileAppender添加到RootLogger中
 			if (this.logFile != null) {
 				Appender<ILoggingEvent> fileAppender = fileAppender(config, this.logFile.toString());
 				config.root(Level.INFO, consoleAppender, fileAppender);
@@ -114,6 +116,7 @@ class DefaultLogbackConfiguration {
 	private Appender<ILoggingEvent> consoleAppender(LogbackConfigurator config) {
 		ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
 		PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+		// 在application.properties中指定输出格式
 		String logPattern = this.patterns.getProperty("logging.pattern.console", CONSOLE_LOG_PATTERN);
 		encoder.setPattern(OptionHelper.substVars(logPattern, config.getContext()));
 		config.start(encoder);
@@ -125,6 +128,7 @@ class DefaultLogbackConfiguration {
 	private Appender<ILoggingEvent> fileAppender(LogbackConfigurator config, String logFile) {
 		RollingFileAppender<ILoggingEvent> appender = new RollingFileAppender<>();
 		PatternLayoutEncoder encoder = new PatternLayoutEncoder();
+		// 指定输出到文件日志格式
 		String logPattern = this.patterns.getProperty("logging.pattern.file", FILE_LOG_PATTERN);
 		encoder.setPattern(OptionHelper.substVars(logPattern, config.getContext()));
 		appender.setEncoder(encoder);
@@ -135,6 +139,7 @@ class DefaultLogbackConfiguration {
 		return appender;
 	}
 
+	// 设置rollingPolicy
 	private void setRollingPolicy(RollingFileAppender<ILoggingEvent> appender, LogbackConfigurator config,
 			String logFile) {
 		SizeAndTimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new SizeAndTimeBasedRollingPolicy<>();

@@ -128,6 +128,7 @@ public class LogbackLoggingSystem extends Slf4JLoggingSystem {
 	protected void loadDefaults(LoggingInitializationContext initializationContext, LogFile logFile) {
 		LoggerContext context = getLoggerContext();
 		stopAndReset(context);
+		// 判断jvm系统属性中是否设置了logback.debug=true
 		boolean debug = Boolean.getBoolean("logback.debug");
 		if (debug) {
 			StatusListenerConfigHelper.addOnConsoleListenerInstance(context, new OnConsoleStatusListener());
@@ -135,8 +136,10 @@ public class LogbackLoggingSystem extends Slf4JLoggingSystem {
 		LogbackConfigurator configurator = debug ? new DebugLogbackConfigurator(context)
 				: new LogbackConfigurator(context);
 		Environment environment = initializationContext.getEnvironment();
+		// 输出格式可自定义
 		context.putProperty(LoggingSystemProperties.LOG_LEVEL_PATTERN,
 				environment.resolvePlaceholders("${logging.pattern.level:${LOG_LEVEL_PATTERN:%5p}}"));
+		// boot默认事件输出，可以自定义
 		context.putProperty(LoggingSystemProperties.LOG_DATEFORMAT_PATTERN, environment.resolvePlaceholders(
 				"${logging.pattern.dateformat:${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}"));
 		new DefaultLogbackConfiguration(initializationContext, logFile).apply(configurator);

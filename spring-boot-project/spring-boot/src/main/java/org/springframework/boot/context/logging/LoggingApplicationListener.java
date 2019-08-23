@@ -234,7 +234,9 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 	}
 
 	private void onApplicationStartingEvent(ApplicationStartingEvent event) {
+		// 判断当前应用应该用什么日志系统
 		this.loggingSystem = LoggingSystem.get(event.getSpringApplication().getClassLoader());
+
 		this.loggingSystem.beforeInitialize();
 	}
 
@@ -278,11 +280,14 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 	 */
 	protected void initialize(ConfigurableEnvironment environment, ClassLoader classLoader) {
 		new LoggingSystemProperties(environment).apply();
+		// 判断是否需要生成FileAppender
 		this.logFile = LogFile.get(environment);
 		if (this.logFile != null) {
+			// 将logging.file.path及logging.file.name写入到jvm系统属性中
 			this.logFile.applyToSystemProperties();
 		}
 		this.loggerGroups = new LoggerGroups(DEFAULT_GROUP_LOGGERS);
+		// 判断是否配置了debug或trace=true属性
 		initializeEarlyLoggingLevel(environment);
 		initializeSystem(environment, this.loggingSystem, this.logFile);
 		initializeFinalLoggingLevels(environment, this.loggingSystem);
@@ -291,6 +296,7 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 
 	private void initializeEarlyLoggingLevel(ConfigurableEnvironment environment) {
 		if (this.parseArgs && this.springBootLogging == null) {
+			// 判断application.properties文件中是否配置了debug=true或trace=true
 			if (isSet(environment, "debug")) {
 				this.springBootLogging = LogLevel.DEBUG;
 			}
