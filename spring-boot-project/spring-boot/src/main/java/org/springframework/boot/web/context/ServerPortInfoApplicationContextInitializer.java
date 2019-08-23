@@ -45,6 +45,8 @@ import org.springframework.util.StringUtils;
  * <p>
  * Properties are automatically propagated up to any parent context.
  *
+ * 设置WebServer监听端口
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @since 2.0.0
